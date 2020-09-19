@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Users</title>
+    <style type="text/css">
+        TABLE {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        TD, TH {
+            padding: 3px;
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<br>
+
+<table >
+    <tr>
+        <td>
+            <a>Users Table</a>
+        </td>
+    </tr>
+</table>
+<br/>
+<div>
+    <table>
+        <caption th:utext="Users"></caption>
+        <tr style=" width: 100%; border: 1px solid black;">
+            <th th:text="Id"></th>
+            <th th:text="Firstname"></th>
+            <th th:text="Lastname"></th>
+            <th th:text="Email"></th>
+
+        </tr>
+        <tr>
+            <td th:text="${user.getId()}">
+            </td>
+            <td th:text="${user.getFirstName()}">
+            </td>
+            <td th:text="${user.getLastName()}">
+            </td>
+            <td th:text="${user.getEmail()}">
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<p style="text-align: center">
+    <a th:href="@{'/logout'}" >Out</a>
+</p>
+</html>

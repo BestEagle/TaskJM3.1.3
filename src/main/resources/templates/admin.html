@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Users</title>
+    <style type="text/css">
+        TABLE {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        TD, TH {
+            padding: 3px;
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<br>
+
+<table >
+    <tr>
+        <td>
+            <a>Users Table</a>
+        </td>
+    </tr>
+</table>
+<br/>
+
+<form action="/add" method="POST">
+    First Name:<input type="text" name="FirstName">
+    Last Name:<input type="text" name="LastName">
+    Email :<input type="text" name="Email">
+    <input type="submit" value="add">
+</form>
+<br/>
+<div>
+    <table>
+        <caption th:utext="Users"></caption>
+        <tr style=" width: 100%; border: 1px solid black;">
+            <th th:text="Id"></th>
+            <th th:text="Firstname"></th>
+            <th th:text="Lastname"></th>
+            <th th:text="Email"></th>
+            <th th:text="Actions"></th>
+
+        </tr>
+        <tr th:each="users : ${listUsers}">
+            <td th:text="${users.getId()}">
+            </td>
+            <td th:text="${users.getFirstName()}">
+            </td>
+            <td th:text="${users.getLastName()}">
+            </td>
+            <td th:text="${users.getEmail()}">
+            </td>
+            <td >
+                <a th:href="@{'/edit/' + ${users.id}}" >edit</a>
+                <a th:href="@{'/delete/' + ${users.id}}" >delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<p style="text-align: center">
+<a th:href="@{'/logout'}" >Out</a>
+</p>
+</html>
