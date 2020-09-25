@@ -930,9 +930,7 @@ SELECT|sys.sys_config:null
     </table>
     <table id="291" parent="11" name="roles"/>
     <table id="292" parent="11" name="users"/>
-    <table id="293" parent="11" name="users_roles">
-      <Engine>MyISAM</Engine>
-    </table>
+    <table id="293" parent="11" name="users_roles"/>
     <column id="294" parent="289" name="ID">
       <Position>1</Position>
       <DataType>int|0s</DataType>
@@ -978,59 +976,65 @@ SELECT|sys.sys_config:null
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="303" parent="292" name="ID">
+    <column id="303" parent="292" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="304" parent="292" name="FIRST_NAME">
+    <column id="304" parent="292" name="first_name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="305" parent="292" name="LAST_NAME">
+    <column id="305" parent="292" name="last_name">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="306" parent="292" name="EMAIL">
+    <column id="306" parent="292" name="email">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="307" parent="292" name="name">
+    <column id="307" parent="292" name="password">
       <Position>5</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="308" parent="292" name="password">
-      <Position>6</Position>
-      <DataType>varchar(255)|0s</DataType>
-    </column>
-    <key id="309" parent="292" name="PRIMARY">
+    <key id="308" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>ID</ColNames>
+      <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="310" parent="293" name="User_ID">
+    <column id="309" parent="293" name="user_id">
       <Position>1</Position>
-      <DataType>bigint|0s</DataType>
+      <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="311" parent="293" name="roles_id">
+    <column id="310" parent="293" name="roles_id">
       <Position>2</Position>
-      <DataType>bigint|0s</DataType>
+      <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="312" parent="293" name="FKa62j07k5mhgifpp955h37ponj">
+    <index id="311" parent="293" name="FKa62j07k5mhgifpp955h37ponj">
       <ColNames>roles_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="313" parent="293" name="PRIMARY">
+    <key id="312" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>User_ID
+      <ColNames>user_id
 roles_id</ColNames>
       <Primary>1</Primary>
     </key>
+    <foreign-key id="313" parent="293" name="FK2o0jvgh89lemvvo17cbqvdxaa">
+      <ColNames>user_id</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="314" parent="293" name="FKa62j07k5mhgifpp955h37ponj">
+      <ColNames>roles_id</ColNames>
+      <RefTableName>roles</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>

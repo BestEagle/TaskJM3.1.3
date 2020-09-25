@@ -15,40 +15,42 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import sun.rmi.runtime.Log;
 import web.config.handler.LoginSuccessHandler;
+import web.service.MyUserDetailService;
 import web.service.UserService;
 import web.service.UserServiceImpl;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserServiceImpl userServiceImpl;
-    private final LoginSuccessHandler loginSuccessHandler;
+    private MyUserDetailService myUserDetailService;
+    private LoginSuccessHandler loginSuccessHandler;
 
 
     @Autowired
-    public SecurityConfig(UserServiceImpl userServiceImpl, LoginSuccessHandler loginSuccessHandler) {
-        this.userServiceImpl = userServiceImpl;
+    public SecurityConfig(MyUserDetailService myUserDetailService, LoginSuccessHandler loginSuccessHandler) {
+        this.myUserDetailService = myUserDetailService;
         this.loginSuccessHandler = loginSuccessHandler;
     }
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userServiceImpl).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(myUserDetailService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//         http.formLogin()
-//                // указываем страницу с формой логина
-//                .loginPage("/login")
-//                //указываем логику обработки при логине
-//                .successHandler(loginSuccessHandler)
-//                // указываем action с формы логина
-//                .loginProcessingUrl("/login")
-//                // Указываем параметры логина и пароля с формы логина
-//                .usernameParameter("j_username")
-//                .passwordParameter("j_password")
-//                // даем доступ к форме логина всем
-//                .permitAll();
+         http.formLogin()
+                // указываем страницу с формой логина
+                .loginPage("/login")
+                //указываем логику обработки при логине
+                .successHandler(loginSuccessHandler)
+                // указываем action с формы логина
+                .loginProcessingUrl("/login")
+                // Указываем параметры логина и пароля с формы логина
+                .usernameParameter("email")
+                .passwordParameter("password")
+                // даем доступ к форме логина всем
+                .permitAll();
 
         http.logout()
                 // разрешаем делать логаут всем
@@ -66,11 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //страницы аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
                 // защищенные URL
-                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin").hasRole("ADMIN")
-                .and()
-                .formLogin()  // Spring сам подставит свою логин форму
-                .successHandler(loginSuccessHandler); // подключаем наш SuccessHandler для перенеправления по ролям
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN");
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .anyRequest().denyAll();
     }
 
     @Bean

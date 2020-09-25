@@ -1,34 +1,32 @@
 package web.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "ID")
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "FIRST_NAME")
+    @Column
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column
     private String lastName;
 
-    @Column(name = "EMAIL")
+    @Column
     private String email;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "password")
+    @Column
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -38,13 +36,6 @@ public class User implements UserDetails {
 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -57,7 +48,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return email;
     }
 
     @Override
@@ -124,6 +115,15 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public String getStringRoles(){
+        StringBuilder r = new StringBuilder();
+        Iterator<Role> iterator = roles.iterator();
+        while (iterator.hasNext()) {
+            r.append(iterator.next().getName());
+        }
+        return r.toString();
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -131,8 +131,21 @@ public class User implements UserDetails {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", email='" + roles + '\'' +
                 '}';
     }
 
-   }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return roles.equals(user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roles);
+    }
+}
 

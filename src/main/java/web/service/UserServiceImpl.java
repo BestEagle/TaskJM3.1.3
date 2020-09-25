@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ import web.model.User;
 import java.util.List;
 @Service
 @Transactional
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService{
 
     private UserDao userDao;
 
@@ -24,40 +25,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
-    public void addUser(User user) {
-        this.userDao.addUser(user);
-
+    public User findByEmail(String email) {
+        return userDao.findByEmail(email);
     }
 
     @Override
-    @Transactional
-    public void updateUser(User user) {
-        this.userDao.updateUser(user);
-
+    public User save(User user) {
+        return userDao.save(user);
     }
 
     @Override
-    @Transactional
-    public void deleteUser(int id) {
-        this.userDao.deleteUser(id);
-
+    public User findById(int id) {
+        return userDao.findById(id).get();
     }
 
     @Override
-    @Transactional
-    public User getUserById(int id) {
-        return this.userDao.getUserById(id);
+    public Iterable<User> findAll() {
+        return userDao.findAll();
     }
 
     @Override
-    @Transactional
-    public List<User> listUsers() {
-        return this.userDao.listUsers();
+    public void deleteById(int id) {
+        userDao.deleteById(id);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return this.userDao.getByName(s);
-    }
+
+
 }
