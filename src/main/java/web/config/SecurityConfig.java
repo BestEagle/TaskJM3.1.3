@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN");
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .anyRequest().denyAll();
+                .anyRequest().permitAll();
     }
 
     @Bean

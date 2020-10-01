@@ -29,22 +29,8 @@ public class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
         model.addAttribute("listUsers", userService.findAll());
+        model.addAttribute("userEdit", new User());
         return "admin";
-    }
-
-    @PostMapping("admin/add")
-    public String addUser(User user, String newRoles) {
-        Set<Role> role = new HashSet<>();
-        role.add(new Role(newRoles));
-        user.setRoles(role);
-        userService.save(user);
-        return "redirect:/admin";
-    }
-
-    @PostMapping("admin/delete")
-    public String deleteUser(int id) {
-        userService.deleteById(id);
-        return "redirect:/admin";
     }
 
 
