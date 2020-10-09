@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService{
 
     private UserDao userDao;
 
+
     @Autowired
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -31,7 +32,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User save(User user) {
-        return userDao.save(user);
+        if (user.getPassword().equals("")) {
+            user.setPassword(userDao.findById(user.getId()).get().getPassword());
+        }
+       return userDao.save(user);
     }
 
     @Override

@@ -24,7 +24,6 @@ function loadTable() {
                     '<td>' + user.firstName + '</td>' +
                     '<td>' + user.lastName + '</td>' +
                     '<td>' + user.email + '</td>' +
-                    '<td>' + user.password + '</td>' +
                     '<td>' + userRoles(user.roles) + '</td>' +
                     '<td>' + '<button type="button" name="buttonEdit" onclick="userForEdit(this)" data-target="#editModal" value=' + user.id + ' ' +
                     'class="btn btn-info" data-toggle="modal">' + 'Edit' + '</button>' + '</td>' +
@@ -80,8 +79,8 @@ function userForEdit(obj) {
             $("#firstname").val(user.firstName);
             $("#lastname").val(user.lastName);
             $("#email").val(user.email);
-            $("#password").val(user.password);
-            $("#roles1").val(user.roles);
+            $("#password").val("");
+            $("#roles1:selected").val(user.roles);
             $("#editId").val(user.id);
             $("#editButton").val(user.id);
         },
